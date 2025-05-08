@@ -1,0 +1,41 @@
+
+version: '3.8'
+
+services:
+  front:
+    image: gopikumar1/pp-fe-image
+    ports:
+      - "5174:5174"
+    restart: on-failure
+    networks:
+      - docswitch-pp-net
+
+  backend:
+    image: gopikumar1/pp-be-image
+    ports:
+      - "5000:5000"
+    restart: on-failure
+    env_file:
+      - ./backend/.env
+    networks:
+      - docswitch-pp-net
+
+  mongo:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - docswitch-pp-net
+
+
+networks:
+  docswitch-pp-net:
+    external: true
+
+volumes:
+  mongo-data:
+
+
